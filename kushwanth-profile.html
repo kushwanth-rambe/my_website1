@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kushwanth R – Product Manager</title>
+<style>
+  :root{
+    --nav:#131921; --nav2:#232F3E; --nav3:#37475A; --bg:#EAEDED; --card:#fff;
+    --orange:#FF9900; --yellow:#FFD814; --yellow-b:#FCD200; --btn-orange:#FFA41C;
+    --link:#007185; --link-h:#C7511F; --text:#0F1111; --muted:#565959; --star:#FFA41C;
+    --green:#067D62; --border:#D5D9D9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:"Amazon Ember",Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.45}
+  a{color:var(--link);text-decoration:none}
+  a:hover{color:var(--link-h);text-decoration:underline}
+
+  /* ---------- Top nav ---------- */
+  .nav{background:var(--nav);color:#fff;display:flex;align-items:center;gap:10px;padding:8px 14px;position:sticky;top:0;z-index:50}
+  .nav-box{border:1px solid transparent;border-radius:2px;padding:6px 8px;cursor:pointer;white-space:nowrap}
+  .nav-box:hover{border-color:#fff}
+  .logo{font-size:22px;font-weight:700;letter-spacing:-.5px;color:#fff}
+  .logo span{color:var(--orange)}
+  .loc small,.acct small{display:block;font-size:12px;color:#ccc;line-height:1.1}
+  .loc b,.acct b{font-size:14px}
+  .search{flex:1;display:flex;height:40px;border-radius:6px;overflow:hidden;min-width:0}
+  .search:focus-within{box-shadow:0 0 0 3px var(--orange)}
+  .search select{background:#E6E6E6;border:0;padding:0 8px;font-size:12px;color:#555;border-right:1px solid #cdcdcd}
+  .search input{flex:1;border:0;padding:0 10px;font-size:15px;outline:none;min-width:0}
+  .search button{background:#FEBD69;border:0;width:46px;cursor:pointer;display:grid;place-items:center}
+  .search button:hover{background:#F3A847}
+  .cart{display:flex;align-items:flex-end;gap:2px;font-weight:700}
+  .cart .count{color:var(--orange);font-size:16px;position:relative;top:-14px;left:16px;width:0}
+
+  .subnav{background:var(--nav2);display:flex;gap:4px;padding:4px 10px;overflow-x:auto;scrollbar-width:none;position:sticky;top:56px;z-index:49}
+  .subnav::-webkit-scrollbar{display:none}
+  .subnav a{color:#fff;padding:6px 9px;border:1px solid transparent;border-radius:2px;white-space:nowrap;font-size:14px}
+  .subnav a:hover{border-color:#fff;text-decoration:none;color:#fff}
+  .subnav .promo{margin-left:auto;font-weight:700}
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative;height:330px;background:
+      radial-gradient(circle at 80% 30%,rgba(255,153,0,.35),transparent 40%),
+      linear-gradient(120deg,#0b3a4a 0%,#145d72 45%,#2d8fa3 100%);
+      color:#fff;overflow:hidden}
+  .hero::after{content:"";position:absolute;inset:auto 0 0 0;height:160px;background:linear-gradient(to bottom,rgba(234,237,237,0),var(--bg))}
+  .hero-inner{max-width:1500px;margin:0 auto;padding:44px 40px;position:relative;z-index:1}
+  .hero .tag{display:inline-block;background:#CC0C39;color:#fff;font-size:12px;font-weight:700;padding:3px 8px;border-radius:2px;margin-bottom:12px}
+  .hero h1{font-size:40px;line-height:1.1;font-weight:700;max-width:760px}
+  .hero p{font-size:18px;margin-top:10px;max-width:720px;opacity:.95}
+
+  .wrap{max-width:1500px;margin:0 auto;padding:0 20px}
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:-150px;position:relative;z-index:2}
+  .tile{background:var(--card);padding:20px 20px 16px;display:flex;flex-direction:column}
+  .tile h3{font-size:21px;font-weight:700;margin-bottom:12px;line-height:1.2}
+  .tile .grid4{display:grid;grid-template-columns:1fr 1fr;gap:12px;flex:1}
+  .mini{font-size:12px}
+  .mini .ph{height:86px;border-radius:2px;display:grid;place-items:center;font-size:30px;margin-bottom:4px}
+  .tile .more{margin-top:14px;font-size:13px}
+  .stat{font-size:44px;font-weight:700;color:var(--nav2);line-height:1}
+  .stat small{font-size:14px;color:var(--muted);font-weight:400}
+
+  /* ---------- Product detail ---------- */
+  .card{background:var(--card);padding:24px;margin-top:20px}
+  .crumb{font-size:12px;color:var(--muted);margin-bottom:14px}
+  .pdp{display:grid;grid-template-columns:320px 1fr 260px;gap:28px}
+  .gallery{display:flex;gap:10px}
+  .thumbs{display:flex;flex-direction:column;gap:8px}
+  .thumbs div{width:44px;height:44px;border:1px solid var(--border);border-radius:6px;display:grid;place-items:center;font-size:18px;cursor:pointer}
+  .thumbs div.on{border-color:#E77600;box-shadow:0 0 3px 2px rgba(228,121,17,.5)}
+  .avatar{flex:1;aspect-ratio:1/1;border-radius:4px;background:linear-gradient(145deg,#232F3E,#37475A);display:grid;place-items:center;color:#fff;position:relative;overflow:hidden}
+  .avatar b{font-size:96px;letter-spacing:-3px}
+  .avatar b i{color:var(--orange);font-style:normal}
+  .avatar .badge{position:absolute;top:12px;left:0;background:#232F3E;color:#fff;font-size:12px;padding:4px 10px 4px 8px;border-left:4px solid var(--orange)}
+  .pdp h2{font-size:24px;font-weight:400;line-height:1.3}
+  .byline{margin:4px 0 6px}
+  .rating{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding-bottom:10px;border-bottom:1px solid #e7e7e7}
+  .stars{color:var(--star);letter-spacing:1px;font-size:16px}
+  .choice{background:#232F3E;color:#fff;font-size:12px;padding:2px 8px;border-radius:2px}
+  .choice span{color:var(--orange)}
+  .price{padding:12px 0;border-bottom:1px solid #e7e7e7}
+  .price .lbl{color:#CC0C39;font-size:24px;font-weight:300}
+  .price .big{font-size:28px}
+  .price .big sup{font-size:13px;position:relative;top:-2px}
+  .price .sub{color:var(--muted);font-size:13px}
+  .specs{display:grid;grid-template-columns:150px 1fr;gap:6px 12px;padding:14px 0;border-bottom:1px solid #e7e7e7}
+  .specs dt{font-weight:700}
+  .about h4{font-size:16px;margin:14px 0 6px}
+  .about ul{padding-left:18px}
+  .about li{margin-bottom:6px}
+
+  .buybox{border:1px solid var(--border);border-radius:8px;padding:18px;align-self:start;position:sticky;top:110px}
+  .buybox .big{font-size:22px;font-weight:700}
+  .instock{color:var(--green);font-size:18px;margin:10px 0}
+  .buybox p{font-size:13px;margin-bottom:6px}
+  .btn{display:block;width:100%;text-align:center;border-radius:20px;padding:9px 10px;font-size:13px;border:1px solid transparent;cursor:pointer;margin-top:10px;color:var(--text)!important;text-decoration:none!important;font-family:inherit}
+  .btn-y{background:var(--yellow);border-color:var(--yellow-b)}
+  .btn-y:hover{background:#F7CA00}
+  .btn-o{background:var(--btn-orange);border-color:#FF8F00}
+  .btn-o:hover{background:#FA8900}
+  .btn-w{background:#fff;border-color:var(--border);box-shadow:0 2px 5px rgba(213,217,217,.5)}
+  .btn-w:hover{background:#F7FAFA}
+  .secure{font-size:12px;color:var(--muted);margin-top:12px;display:flex;gap:6px}
+  .contact-lines{font-size:13px;margin-top:12px;border-top:1px solid #e7e7e7;padding-top:10px}
+  .contact-lines div{display:grid;grid-template-columns:60px 1fr;margin-bottom:4px}
+  .contact-lines span{color:var(--muted)}
+
+  /* ---------- Carousel ---------- */
+  .row-title{font-size:21px;font-weight:700;margin-bottom:14px}
+  .carousel{display:flex;gap:14px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory}
+  .carousel::-webkit-scrollbar{height:8px}
+  .carousel::-webkit-scrollbar-thumb{background:#bbb;border-radius:4px}
+  .prod{flex:0 0 190px;scroll-snap-align:start;border:1px solid #eee;border-radius:6px;padding:14px;background:#fff}
+  .prod .ico{height:96px;border-radius:4px;display:grid;place-items:center;font-size:40px;background:#F7F8F8;margin-bottom:10px}
+  .prod .t{font-size:14px;line-height:1.3;height:36px;overflow:hidden;color:var(--link)}
+  .prod .stars{font-size:13px}
+  .prod .deal{display:inline-block;background:#CC0C39;color:#fff;font-size:11px;font-weight:700;padding:2px 6px;border-radius:2px;margin-top:6px}
+
+  /* ---------- Orders (experience) ---------- */
+  .orders-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+  .orders-head h2{font-size:28px;font-weight:400}
+  .tabs{display:flex;gap:18px;border-bottom:1px solid #ddd;margin-bottom:16px;font-size:14px}
+  .tabs button{background:none;border:0;padding:8px 0;cursor:pointer;color:var(--link);font-family:inherit;font-size:14px;border-bottom:2px solid transparent}
+  .tabs button.on{color:var(--text);font-weight:700;border-bottom-color:#E77600}
+  .order{border:1px solid var(--border);border-radius:8px;margin-bottom:18px;overflow:hidden}
+  .order-top{background:#F0F2F2;padding:12px 18px;display:flex;gap:30px;flex-wrap:wrap;font-size:12px;color:var(--muted);border-bottom:1px solid var(--border)}
+  .order-top b{display:block;color:var(--muted);font-weight:400;text-transform:uppercase;font-size:11px}
+  .order-top span{color:var(--text);font-size:13px}
+  .order-top .oid{margin-left:auto;text-align:right}
+  .order-body{padding:18px;display:grid;grid-template-columns:90px 1fr 220px;gap:18px}
+  .order-body .ico{width:90px;height:90px;border-radius:6px;display:grid;place-items:center;font-size:36px;background:#F7F8F8}
+  .status{font-size:18px;font-weight:700;margin-bottom:4px}
+  .status.live{color:var(--green)}
+  .order-body h3{font-size:15px;color:var(--link);font-weight:400;margin-bottom:6px}
+  .order-body ul{padding-left:18px;font-size:13px}
+  .order-body li{margin-bottom:4px}
+  .order-body .quote{font-style:italic;color:var(--muted);font-size:13px;margin-bottom:8px;border-left:3px solid var(--orange);padding-left:8px}
+  .actions .btn{margin-top:0;margin-bottom:8px}
+
+  /* ---------- Certs & Education ---------- */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .list-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid #eee}
+  .list-item:last-child{border-bottom:0}
+  .list-item .ico{flex:0 0 56px;height:56px;border-radius:6px;display:grid;place-items:center;font-size:26px;background:#F7F8F8}
+  .list-item h4{font-size:15px;font-weight:700}
+  .list-item p{color:var(--muted);font-size:13px}
+  .verified{color:var(--green);font-size:12px;font-weight:700}
+
+  /* ---------- Contact form ---------- */
+  .form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+  .form label{font-weight:700;font-size:13px;display:block;margin-bottom:4px}
+  .form input,.form textarea{width:100%;border:1px solid #888C8C;border-radius:3px;padding:8px;font:inherit;box-shadow:0 1px 2px rgba(15,17,17,.15) inset}
+  .form input:focus,.form textarea:focus{outline:none;border-color:#E77600;box-shadow:0 0 3px 2px rgba(228,121,17,.5)}
+  .form .full{grid-column:1/-1}
+  .form .btn{width:auto;display:inline-block;padding:9px 28px}
+  .alert{display:none;border:1px solid var(--green);border-radius:8px;padding:12px 16px;margin-top:12px;box-shadow:0 0 0 4px #E6F4F1 inset}
+  .alert b{color:var(--green)}
+
+  /* ---------- Footer ---------- */
+  .totop{display:block;background:var(--nav3);color:#fff!important;text-align:center;padding:15px;margin-top:30px;font-size:13px}
+  .totop:hover{background:#485769;text-decoration:none!important}
+  footer{background:var(--nav2);color:#DDD;padding:40px 20px 30px}
+  .fcols{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:30px}
+  footer h5{color:#fff;font-size:16px;margin-bottom:10px}
+  footer a{color:#DDD;display:block;font-size:14px;margin-bottom:8px}
+  footer a:hover{color:#DDD}
+  .fbottom{background:var(--nav);color:#ccc;text-align:center;font-size:12px;padding:20px}
+  .fbottom .logo{font-size:18px;display:inline-block;margin-bottom:8px}
+
+  mark{background:#FFE8B3;padding:0 2px}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:1100px){
+    .tiles{grid-template-columns:repeat(2,1fr)}
+    .pdp{grid-template-columns:260px 1fr}
+    .buybox{grid-column:1/-1;position:static}
+  }
+  @media (max-width:760px){
+    .nav{flex-wrap:wrap;padding:8px 10px}
+    .loc,.acct{display:none}
+    .search{order:3;flex:1 0 100%}
+    .cart{margin-left:auto}
+    .subnav{top:104px}
+    .hero{height:300px}
+    .hero-inner{padding:28px 20px}
+    .hero h1{font-size:28px}
+    .hero p{font-size:15px}
+    .wrap{padding:0 10px}
+    .tiles{grid-template-columns:1fr;gap:12px;margin-top:-130px}
+    .pdp{grid-template-columns:1fr}
+    .order-body{grid-template-columns:1fr}
+    .order-body .ico{display:none}
+    .order-top .oid{margin-left:0;text-align:left}
+    .two,.form{grid-template-columns:1fr}
+    .specs{grid-template-columns:120px 1fr}
+    .fcols{grid-template-columns:1fr 1fr}
+    .card{padding:16px}
+  }
+</style>
+</head>
+<body id="top">
+
+<!-- ===== Top nav ===== -->
+<header class="nav">
+  <a href="#top" class="nav-box logo" style="text-decoration:none">kushwanth<span>.pm</span></a>
+  <div class="nav-box loc">
+    <small>📍 Based in</small><b>Chennai, India</b>
+  </div>
+  <form class="search" id="searchForm" role="search">
+    <select aria-label="Search scope"><option>Profile</option></select>
+    <input id="q" type="search" placeholder="Search skills, roles, companies…" aria-label="Search profile">
+    <button type="submit" aria-label="Search">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+    </button>
+  </form>
+  <a href="#contact" class="nav-box acct" style="color:#fff;text-decoration:none">
+    <small>Hello, Recruiter</small><b>Contact &amp; Lists ▾</b>
+  </a>
+  <a href="#experience" class="nav-box acct" style="color:#fff;text-decoration:none">
+    <small>Returns</small><b>&amp; Orders</b>
+  </a>
+  <a href="#contact" class="nav-box cart" style="color:#fff;text-decoration:none" title="Hire">
+    <span class="count">1</span>
+    <svg width="38" height="30" viewBox="0 0 38 30" fill="none" stroke="#fff" stroke-width="2"><path d="M2 3h6l4 17h18l4-12H11"/><circle cx="14" cy="26" r="2"/><circle cx="28" cy="26" r="2"/></svg>
+    <span>Hire</span>
+  </a>
+</header>
+
+<nav class="subnav">
+  <a href="#about">☰ All</a>
+  <a href="#about">About</a>
+  <a href="#skills">Top Skills</a>
+  <a href="#experience">Experience</a>
+  <a href="#certs">Certifications</a>
+  <a href="#education">Education</a>
+  <a href="#contact">Contact</a>
+  <a href="https://www.linkedin.com/in/kushwanth-rambe" class="promo" target="_blank" rel="noopener">Connect on LinkedIn</a>
+</nav>
+
+<!-- ===== Hero ===== -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="tag">Open to PM / Senior PM roles</span>
+    <h1>Building customer-centric products that customers love and businesses value</h1>
+    <p>Product Manager · Applied AI PM · B2B Enterprise SaaS &amp; B2C · 14 years across banking and enterprise technology</p>
+  </div>
+</section>
+
+<main class="wrap">
+
+  <!-- ===== Tiles ===== -->
+  <section class="tiles">
+    <div class="tile">
+      <h3>Top skills</h3>
+      <div class="grid4">
+        <div class="mini"><div class="ph" style="background:#FFF4E0">🧩</div>Product Development</div>
+        <div class="mini"><div class="ph" style="background:#E6F4F1">🤖</div>Artificial Intelligence</div>
+        <div class="mini"><div class="ph" style="background:#E8F0FE">🧭</div>Product Strategy &amp; Vision</div>
+        <div class="mini"><div class="ph" style="background:#FDECEF">🔁</div>Agile · SAFe · Scrum</div>
+      </div>
+      <a class="more" href="#skills">See all skills</a>
+    </div>
+    <div class="tile">
+      <h3>Experience at a glance</h3>
+      <div class="grid4">
+        <div class="mini"><div class="stat">14<small> yrs</small></div>Total experience</div>
+        <div class="mini"><div class="stat">5</div>Roles held</div>
+        <div class="mini"><div class="stat">2</div>Organisations</div>
+        <div class="mini"><div class="stat">10<small> yrs</small></div>Banking tech</div>
+      </div>
+      <a class="more" href="#experience">View order history</a>
+    </div>
+    <div class="tile">
+      <h3>Certified &amp; verified</h3>
+      <div class="grid4">
+        <div class="mini"><div class="ph" style="background:#E6F4F1">🏅</div>CCBA® (IIBA)</div>
+        <div class="mini"><div class="ph" style="background:#FFF4E0">🎯</div>PSPO</div>
+        <div class="mini"><div class="ph" style="background:#E8F0FE">🛡️</div>Certified Agile Leadership</div>
+        <div class="mini"><div class="ph" style="background:#FDECEF">📋</div>IT Project Management</div>
+      </div>
+      <a class="more" href="#certs">See all certifications</a>
+    </div>
+    <div class="tile">
+      <h3>Education</h3>
+      <div class="grid4" style="grid-template-columns:1fr">
+        <div class="mini" style="display:flex;gap:10px;align-items:center"><div class="ph" style="background:#E8F0FE;width:70px;height:70px;margin:0">🎓</div><div><b>MBA</b><br>Marketing, General &amp; HR<br><span style="color:var(--muted)">Chaitanya Bharathi Institute of Technology</span></div></div>
+        <div class="mini" style="display:flex;gap:10px;align-items:center"><div class="ph" style="background:#FFF4E0;width:70px;height:70px;margin:0">💻</div><div><b>B.Tech</b><br>Information Technology<br><span style="color:var(--muted)">Pondicherry Engineering College</span></div></div>
+      </div>
+      <a class="more" href="#education">Learn more</a>
+    </div>
+  </section>
+
+  <!-- ===== Product detail (About) ===== -->
+  <section class="card" id="about">
+    <div class="crumb">Profiles › Product Management › <a href="#about">Applied AI PM</a></div>
+    <div class="pdp">
+      <div class="gallery">
+        <div class="thumbs">
+          <div class="on">👤</div><div>🧠</div><div>📈</div><div>🤝</div>
+        </div>
+        <div class="avatar">
+          <span class="badge">Best Seller in Product Management</span>
+          <b>K<i>R</i></b>
+        </div>
+      </div>
+
+      <div>
+        <h2>Kushwanth R — Product Manager | Driving AI-Product Strategy &amp; Digital Transformation | Applied AI PM | B2B Enterprise SaaS &amp; B2C | Scrum Certified | PSPO | CCBA®</h2>
+        <div class="byline">Visit the <a href="https://www.linkedin.com/in/kushwanth-rambe" target="_blank" rel="noopener">Kushwanth R LinkedIn Store</a></div>
+        <div class="rating">
+          <b>5.0</b><span class="stars">★★★★★</span>
+          <a href="#experience">14 years of experience</a>
+          <span class="choice">Recruiter's <span>Choice</span></span>
+        </div>
+        <div class="price">
+          <span class="lbl">Available</span>&nbsp;
+          <span class="big"><sup>for</sup> PM / Senior PM <sup>roles</sup></span>
+          <div class="sub">Product Manager (Business Consultant) at Tech Mahindra · Chennai, India</div>
+        </div>
+        <dl class="specs">
+          <dt>Current role</dt><dd>Product Manager (Business Consultant)</dd>
+          <dt>Domains</dt><dd>B2B Enterprise SaaS, B2C, Banking &amp; Financial Services</dd>
+          <dt>Frameworks</dt><dd>SAFe, Scrum, Agile SDLC</dd>
+          <dt>Education</dt><dd>MBA · B.Tech (Information Technology)</dd>
+          <dt>Location</dt><dd>India</dd>
+        </dl>
+        <div class="about">
+          <h4>About this item</h4>
+          <ul>
+            <li><b>Customer-centric builder:</b> builds digital products that drive business growth, innovation and measurable impact, around user empathy, research and analytics.</li>
+            <li><b>Idea to scale:</b> turns ideas into scalable solutions through product strategy, data-driven decisions and Agile execution.</li>
+            <li><b>Business + tech:</b> an MBA and a B.Tech in IT blend business acumen with technical expertise.</li>
+            <li><b>Cross-functional leader:</b> works with business leaders, customers and technology teams to define vision, prioritise initiatives and deliver high-impact solutions.</li>
+            <li><b>Always learning:</b> continuously expanding product capabilities, with a current focus on applied AI product management.</li>
+          </ul>
+        </div>
+      </div>
+
+      <aside class="buybox">
+        <div class="big">Ready to join your team</div>
+        <div class="instock">In Stock.</div>
+        <p>Ships from <b>Chennai, India</b></p>
+        <p>Open to <b>PM / Senior PM</b> opportunities</p>
+        <a class="btn btn-y" href="#contact">Contact Me</a>
+        <a class="btn btn-o" href="https://www.linkedin.com/in/kushwanth-rambe" target="_blank" rel="noopener">Connect on LinkedIn</a>
+        <button class="btn btn-w" id="copyEmail" type="button">Copy email address</button>
+        <div class="secure">🔒 <span>Secure transaction · replies usually within a day</span></div>
+        <div class="contact-lines">
+          <div><span>Email</span><a href="mailto:kushwanth003@gmail.com">kushwanth003@gmail.com</a></div>
+          <div><span>Mobile</span><a href="tel:+916301445212">+91 63014 45212</a></div>
+          <div><span>LinkedIn</span><a href="https://www.linkedin.com/in/kushwanth-rambe" target="_blank" rel="noopener">/in/kushwanth-rambe</a></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ===== Skills carousel ===== -->
+  <section class="card" id="skills">
+    <div class="row-title">Key areas of expertise <span style="font-weight:400;font-size:14px;color:var(--muted)">· Customers who viewed this profile also hired for</span></div>
+    <div class="carousel">
+      <div class="prod"><div class="ico">🗺️</div><div class="t">Product Management &amp; Product Strategy</div><div class="stars">★★★★★</div><span class="deal">Core skill</span></div>
+      <div class="prod"><div class="ico">🛣️</div><div class="t">Roadmap Planning &amp; Feature Planning</div><div class="stars">★★★★★</div><span class="deal">Core skill</span></div>
+      <div class="prod"><div class="ico">🤝</div><div class="t">Stakeholder Collaboration &amp; Cross-functional Leadership</div><div class="stars">★★★★★</div></div>
+      <div class="prod"><div class="ico">⚙️</div><div class="t">Agile Product Development &amp; SDLC Delivery</div><div class="stars">★★★★★</div></div>
+      <div class="prod"><div class="ico">🔁</div><div class="t">SAFe &amp; Scrum Framework</div><div class="stars">★★★★★</div></div>
+      <div class="prod"><div class="ico">🔍</div><div class="t">User Research and Analytics</div><div class="stars">★★★★★</div></div>
+      <div class="prod"><div class="ico">🚀</div><div class="t">Digital Transformation &amp; Solution Design</div><div class="stars">★★★★★</div><span class="deal">Top rated</span></div>
+      <div class="prod"><div class="ico">🤖</div><div class="t">Artificial Intelligence (AI) &amp; Applied AI PM</div><div class="stars">★★★★★</div><span class="deal">New</span></div>
+      <div class="prod"><div class="ico">🧠</div><div class="t">Leadership and Problem Solving</div><div class="stars">★★★★★</div></div>
+      <div class="prod"><div class="ico">🎤</div><div class="t">Presentation Skills &amp; Executive Communication</div><div class="stars">★★★★★</div></div>
+      <div class="prod"><div class="ico">💬</div><div class="t">Communication &amp; Relationship Building</div><div class="stars">★★★★★</div></div>
+    </div>
+  </section>
+
+  <!-- ===== Experience as orders ===== -->
+  <section class="card" id="experience">
+    <div class="orders-head">
+      <h2>Your Orders <span style="font-size:15px;color:var(--muted)">— career history</span></h2>
+      <span style="color:var(--muted);font-size:13px"><b style="color:var(--text)">5 orders</b> placed across 14 years</span>
+    </div>
+    <div class="tabs" role="tablist">
+      <button class="on" data-f="all">All roles</button>
+      <button data-f="tm">Tech Mahindra</button>
+      <button data-f="kvb">Karur Vysya Bank</button>
+    </div>
+
+    <article class="order" data-co="tm">
+      <div class="order-top">
+        <div><b>Order placed</b><span>April 2025</span></div>
+        <div><b>Duration</b><span>1 yr 8 mos · Present</span></div>
+        <div><b>Ship to</b><span>Chennai, Tamil Nadu</span></div>
+        <div class="oid"><b>Seller</b><span>Tech Mahindra · 4 yrs 5 mos</span></div>
+      </div>
+      <div class="order-body">
+        <div class="ico">🧭</div>
+        <div>
+          <div class="status live">Currently in progress</div>
+          <h3>Product Manager (Business Consultant)</h3>
+          <p class="quote">Led product discovery and translated business and user needs into prioritised product requirements, roadmap initiatives and measurable outcomes.</p>
+          <ul>
+            <li>Spearheaded product vision, strategy and roadmap execution to drive digital transformation and business growth.</li>
+            <li>Enabled high-performing Agile teams, improving delivery efficiency and product quality.</li>
+            <li>Used analytics and customer insights to make data-driven product decisions.</li>
+            <li>Delivered customer-focused digital solutions that enhanced user experience and business value.</li>
+            <li>Managed the end-to-end product lifecycle from ideation to launch and continuous improvement.</li>
+            <li>Influenced executive stakeholders and cross-functional teams to achieve strategic product objectives.</li>
+            <li>Drove product innovation through market analysis, customer feedback and emerging technology trends.</li>
+          </ul>
+        </div>
+        <div class="actions">
+          <a class="btn btn-y" href="#contact">Discuss this role</a>
+          <a class="btn btn-w" href="#skills">View skills used</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="order" data-co="tm">
+      <div class="order-top">
+        <div><b>Order placed</b><span>October 2023</span></div>
+        <div><b>Duration</b><span>1 yr 6 mos</span></div>
+        <div><b>Ship to</b><span>Chennai, Tamil Nadu</span></div>
+        <div class="oid"><b>Seller</b><span>Tech Mahindra</span></div>
+      </div>
+      <div class="order-body">
+        <div class="ico">🔁</div>
+        <div>
+          <div class="status">Delivered March 2025</div>
+          <h3>Scrum Master</h3>
+          <ul>
+            <li>Led Agile transformation initiatives, enabling high-performing, self-organising teams.</li>
+            <li>Strengthened stakeholder engagement and cross-functional collaboration to maximise business value.</li>
+            <li>Championed servant leadership, fostering a culture of continuous improvement and accountability.</li>
+            <li>Removed delivery roadblocks and optimised Agile processes to accelerate product delivery.</li>
+          </ul>
+        </div>
+        <div class="actions">
+          <a class="btn btn-w" href="#contact">Ask about this role</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="order" data-co="tm">
+      <div class="order-top">
+        <div><b>Order placed</b><span>July 2022</span></div>
+        <div><b>Duration</b><span>1 yr 3 mos</span></div>
+        <div><b>Ship to</b><span>Chennai, Tamil Nadu</span></div>
+        <div class="oid"><b>Seller</b><span>Tech Mahindra</span></div>
+      </div>
+      <div class="order-body">
+        <div class="ico">📐</div>
+        <div>
+          <div class="status">Delivered September 2023</div>
+          <h3>Tech Lead – Senior Business Analyst</h3>
+          <ul>
+            <li>Partnered with business and technology stakeholders to drive requirements analysis and process optimisation.</li>
+            <li>Led digital transformation initiatives that delivered scalable solutions to improve operational efficiency.</li>
+            <li>Improved business performance through strategic collaboration and innovative problem-solving.</li>
+          </ul>
+        </div>
+        <div class="actions">
+          <a class="btn btn-w" href="#contact">Ask about this role</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="order" data-co="kvb">
+      <div class="order-top">
+        <div><b>Order placed</b><span>April 2018</span></div>
+        <div><b>Duration</b><span>4 yrs 3 mos</span></div>
+        <div><b>Ship to</b><span>India</span></div>
+        <div class="oid"><b>Seller</b><span>Karur Vysya Bank (KVB) · 10 yrs 1 mo</span></div>
+      </div>
+      <div class="order-body">
+        <div class="ico">🏦</div>
+        <div>
+          <div class="status">Delivered June 2022</div>
+          <h3>Business Analyst</h3>
+          <ul>
+            <li>Drove banking technology and digital transformation initiatives to enhance customer experiences.</li>
+            <li>Translated complex business needs into effective technology solutions, optimising processes for efficiency.</li>
+            <li>Collaborated with diverse stakeholders to ensure alignment and deliver measurable business value.</li>
+          </ul>
+        </div>
+        <div class="actions">
+          <a class="btn btn-w" href="#contact">Ask about this role</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="order" data-co="kvb">
+      <div class="order-top">
+        <div><b>Order placed</b><span>June 2012</span></div>
+        <div><b>Duration</b><span>5 yrs 10 mos</span></div>
+        <div><b>Ship to</b><span>Chennai, Tamil Nadu</span></div>
+        <div class="oid"><b>Seller</b><span>Karur Vysya Bank (KVB)</span></div>
+      </div>
+      <div class="order-body">
+        <div class="ico">🖥️</div>
+        <div>
+          <div class="status">Delivered March 2018</div>
+          <h3>IT/Ops Manager &amp; Alternate Channel Manager</h3>
+          <ul>
+            <li>Managed IT operations and oversaw technology solutions supporting digital transformation.</li>
+            <li>Conducted IT audits to ensure compliance and optimise operational efficiency.</li>
+            <li>Developed data visualisation tools and mobile applications to improve banking services.</li>
+          </ul>
+        </div>
+        <div class="actions">
+          <a class="btn btn-w" href="#contact">Ask about this role</a>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ===== Certifications & Education ===== -->
+  <div class="two">
+    <section class="card" id="certs">
+      <div class="row-title">Certifications</div>
+      <div class="list-item"><div class="ico">🏅</div><div><h4>CCBA® — Certification of Capability in Business Analysis</h4><p>IIBA</p><span class="verified">✔ Verified</span></div></div>
+      <div class="list-item"><div class="ico">🎯</div><div><h4>PSPO — Professional Scrum Product Owner</h4><p>Scrum certified</p><span class="verified">✔ Verified</span></div></div>
+      <div class="list-item"><div class="ico">🛡️</div><div><h4>Certified Agile Leadership</h4><p>Agile leadership</p></div></div>
+      <div class="list-item"><div class="ico">📋</div><div><h4>IT Project Management</h4><p>Project delivery</p></div></div>
+      <div class="list-item"><div class="ico">💡</div><div><h4>Creative Problem Solving</h4><p>Problem solving</p></div></div>
+      <div class="list-item"><div class="ico">📈</div><div><h4>Successful Career Development</h4><p>Professional growth</p></div></div>
+    </section>
+
+    <section class="card" id="education">
+      <div class="row-title">Education</div>
+      <div class="list-item"><div class="ico">🎓</div><div><h4>Master of Business Administration (MBA)</h4><p>Marketing / Marketing Management, General &amp; Human Resources</p><p>Chaitanya Bharathi Institute of Technology</p></div></div>
+      <div class="list-item"><div class="ico">💻</div><div><h4>Bachelor of Technology (B.Tech)</h4><p>Information Technology</p><p>Pondicherry Engineering College</p></div></div>
+      <div style="margin-top:16px;background:#F0F2F2;border-radius:8px;padding:14px">
+        <b>Frequently bought together</b>
+        <p style="color:var(--muted);font-size:13px;margin-top:4px">MBA + B.Tech IT — business acumen paired with technical depth, so product conversations go smoothly with both executives and engineers.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== Contact ===== -->
+  <section class="card" id="contact">
+    <div class="row-title">Let's connect</div>
+    <p style="color:var(--muted)">Happy to talk about Product Management, Digital Innovation, Customer Experience and building impactful products.</p>
+    <div class="contact-lines" style="border:0;padding:0;margin:14px 0">
+      <div><span>Email</span><a href="mailto:kushwanth003@gmail.com">kushwanth003@gmail.com</a></div>
+      <div><span>Mobile</span><a href="tel:+916301445212">+91 63014 45212</a></div>
+      <div><span>LinkedIn</span><a href="https://www.linkedin.com/in/kushwanth-rambe" target="_blank" rel="noopener">linkedin.com/in/kushwanth-rambe</a></div>
+    </div>
+    <form class="form" id="contactForm">
+      <div><label for="n">Your name</label><input id="n" required></div>
+      <div><label for="e">Your email</label><input id="e" type="email" required></div>
+      <div class="full"><label for="m">Message</label><textarea id="m" rows="4" required placeholder="Tell me about the role or product…"></textarea></div>
+      <div class="full"><button class="btn btn-y" type="submit">Open in email app</button></div>
+    </form>
+    <div class="alert" id="alert"><b>✔ Almost there.</b> Your email app should open with the message filled in. If it doesn't, write to <b>kushwanth003@gmail.com</b>.</div>
+  </section>
+
+</main>
+
+<a href="#top" class="totop">Back to top</a>
+<footer>
+  <div class="fcols">
+    <div><h5>Get to Know Me</h5><a href="#about">About</a><a href="#experience">Career history</a><a href="#education">Education</a></div>
+    <div><h5>Skills</h5><a href="#skills">Product strategy</a><a href="#skills">Applied AI PM</a><a href="#skills">Agile · SAFe · Scrum</a></div>
+    <div><h5>Credentials</h5><a href="#certs">CCBA® (IIBA)</a><a href="#certs">PSPO</a><a href="#certs">Agile Leadership</a></div>
+    <div><h5>Let Me Help You</h5><a href="#contact">Contact</a><a href="https://www.linkedin.com/in/kushwanth-rambe" target="_blank" rel="noopener">LinkedIn</a><a href="mailto:kushwanth003@gmail.com">Email</a></div>
+  </div>
+</footer>
+<div class="fbottom">
+  <div class="logo">kushwanth<span style="color:var(--orange)">.pm</span></div><br>
+  © 2026 Kushwanth R · Product Manager · India
+</div>
+
+<script>
+  // Experience tabs
+  document.querySelectorAll('.tabs button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+      const f=b.dataset.f;
+      document.querySelectorAll('.order').forEach(o=>{o.style.display=(f==='all'||o.dataset.co===f)?'':'none'});
+    });
+  });
+
+  // Search: highlight matches and jump to the first one
+  const main=document.querySelector('main');
+  function clearMarks(){main.querySelectorAll('mark').forEach(m=>{m.replaceWith(document.createTextNode(m.textContent))});main.normalize();}
+  document.getElementById('searchForm').addEventListener('submit',e=>{
+    e.preventDefault();
+    clearMarks();
+    const q=document.getElementById('q').value.trim();
+    if(!q) return;
+    document.querySelectorAll('.order').forEach(o=>o.style.display='');
+    document.querySelectorAll('.tabs button').forEach((x,i)=>x.classList.toggle('on',i===0));
+    const re=new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi');
+    const walker=document.createTreeWalker(main,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentNode.closest('script,style,textarea,input')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT});
+    const nodes=[];while(walker.nextNode()){if(re.test(walker.currentNode.nodeValue))nodes.push(walker.currentNode);re.lastIndex=0;}
+    let first=null;
+    nodes.forEach(n=>{
+      const span=document.createElement('span');
+      span.innerHTML=n.nodeValue.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])).replace(re,m=>'<mark>'+m+'</mark>');
+      n.replaceWith(...span.childNodes);
+    });
+    first=main.querySelector('mark');
+    if(first){window.scrollTo({top:first.getBoundingClientRect().top+window.scrollY-140,behavior:'smooth'});}
+  });
+
+  // Copy email
+  document.getElementById('copyEmail').addEventListener('click',async e=>{
+    const b=e.currentTarget;
+    try{await navigator.clipboard.writeText('kushwanth003@gmail.com');b.textContent='Copied ✔';}
+    catch(_){b.textContent='kushwanth003@gmail.com';}
+    setTimeout(()=>b.textContent='Copy email address',2500);
+  });
+
+  // Contact form -> mailto
+  document.getElementById('contactForm').addEventListener('submit',e=>{
+    e.preventDefault();
+    const n=document.getElementById('n').value,em=document.getElementById('e').value,m=document.getElementById('m').value;
+    const url='mailto:kushwanth003@gmail.com?subject='+encodeURIComponent('Hello from '+n)+'&body='+encodeURIComponent(m+'\n\n— '+n+' ('+em+')');
+    document.getElementById('alert').style.display='block';
+    window.location.href=url;
+  });
+</script>
+</body>
+</html>
